@@ -1,0 +1,28 @@
+{
+  "name": "grabber",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lesson2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Winchess1/grabber.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Winchess1/grabber/issues"
+  },
+  "homepage": "https://github.com/Winchess1/grabber#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "express": "^4.16.4",
+    "jquery": "^3.3.1",
+    "jsdom": "^13.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "underscore": "^1.9.1"
+  }
+}
