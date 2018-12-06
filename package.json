@@ -1,10 +1,11 @@
 {
   "name": "grabber",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "lesson2.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node lesson2.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/Winchess1/grabber#readme",
   "dependencies": {
     "cli-table": "^0.3.1",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
     "jsdom": "^13.0.0",
