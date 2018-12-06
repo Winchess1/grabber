@@ -1,3 +1,4 @@
+const port = process.env.PORT || 3000;
 const express = require('express');
 const app = express();
 const rp = require('request-promise');//take APIs +npm request
@@ -49,5 +50,4 @@ res.render('template',{filterStock:filterStock});
 
 
 
-
-app.listen(3000,console.log('server online'));
+app.listen(port,console.log('server online'));
