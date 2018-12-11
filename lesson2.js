@@ -1,3 +1,4 @@
+const port = process.env.PORT || 3000;
 const express = require('express');
 const app = express();
 const fs = require('fs');
@@ -20,4 +21,4 @@ app.get('/',(req,res)=>{
 
 
 
-app.listen(3000,console.log('server online'));
+app.listen(port,console.log('server online'));	
