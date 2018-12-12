@@ -1,6 +1,10 @@
 
     const rp = require('request-promise');//take APIs +npm request
-    const stockPriceDate =[];
+    const stockPriceOpen =[];
+    const stockPriceClose =[];
+    const stockPriceHigh =[];   
+    const stockPriceLow =[];
+    const stockPriceMinute =[];
     const EventEmitter = require('events');
     const myEmitter = new EventEmitter();
     const _ = require('underscore');
@@ -26,15 +30,14 @@
         })
         .catch(function(err){console.log("error")});
 
-;        var StockObj =0;
+        var StockObj =0;
         var temp =[];
         var stockPrices = [];
         var combinedStockPrice = [];
         myEmitter.once('newListener',(event)=>{
-
-            for (i=0;i<10;i++){
-            var stockLink = ('https://api.iextrading.com/1.0/stock/'+filterStock[i]+'/chart');
-                
+            for (i=0;i<1;i++){
+            var stockLink = ('https://api.iextrading.com/1.0/stock/'+filterStock[i]+'/chart/dynamic');
+          
             const stockPrice = {
                 url: stockLink,
                 json:true,
@@ -47,25 +50,34 @@
                 .then((data)=>{    
                   temp = JSON.stringify(data);
                   StockObj = JSON.parse(temp); 
-                  for(x in StockObj){
-                    stockPriceDate.push("date" + StockObj[x].date,"price" + StockObj[x].close);
-                }  
-            
-                combinedStockPrice.push(stockPriceDate);
                   
+                  for(x in StockObj.data){
+                    stockPriceMinute.push(StockObj.data[x].minute);
+                    stockPriceOpen.push(StockObj.data[x].open);
+                    stockPriceClose.push(StockObj.data[x].close);
+                    stockPriceHigh.push(StockObj.data[x].high);
+                    stockPriceLow.push(StockObj.data[x].low);
+                    
+                }         
+               
+                
             })
 
                .catch(function(err){console.log("error")});
         }
-        exportise(combinedStockPrice);
+        
+        
        
         });
-
+        exportise(stockPriceMinute, stockPriceOpen, stockPriceClose, stockPriceHigh, stockPriceLow);
 
 
   
-function exportise (data){
- 
-    module.exports.log = data;
+function exportise (minute, open, close, high, low){ 
+    module.exports.minute = minute;
+    module.exports.open = open;
+    module.exports.close = close;
+    module.exports.high = high;
+    module.exports.low = low;
 
 };
