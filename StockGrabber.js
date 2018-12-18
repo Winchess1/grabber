@@ -1,13 +1,14 @@
 
     const rp = require('request-promise');//take APIs +npm request
-    const stockPriceNumberOfTrades =[];
-    const stockPriceVolume =[];
-    const stockPriceHigh =[];   
-    const stockPriceLow =[];
-    const stockPriceMinute =[];
+    var stockPriceNumberOfTrades =[];
+            var stockPriceVolume =[];
+            var stockPriceHigh =[];   
+            var stockPriceLow =[];
+            var stockPriceMinute =[];
     const EventEmitter = require('events');
     const myEmitter = new EventEmitter();
-    const _ = require('underscore');       
+    const _ = require('underscore'); 
+
     const allStocks = {
         url: `https://api.iextrading.com/1.0/ref-data/symbols`,
         json:true,
@@ -30,18 +31,17 @@
         })
         .catch(function(err){console.log("error")});
 
-        var StockObj =0;
+        var stockObj =0;
         var temp =[];
         var stockPrices = [];
         var combinedStockPrice = [];
 
-        myEmitter.once('newListener',(event)=>{
-            for (i=0;i<1;i++){ dataExtractor(i); }    
-        });
+       
 
-function dataExtractor(i){
-
-    var stockLink = ('https://api.iextrading.com/1.0/stock/'+filterStock[i]+'/chart/dynamic');
+      const  dataExtractor = function (i){
+console.log(i);
+    var stockLink = ('https://api.iextrading.com/1.0/stock/'+i+'/chart/dynamic');
+    console.log(stockLink);
           
     const stockPrice = {
         url: stockLink,
@@ -53,28 +53,34 @@ function dataExtractor(i){
     
         rp(stockPrice)
         .then((data)=>{    
-          temp = JSON.stringify(data);
-          StockObj = JSON.parse(temp); 
-          
-          for(x in StockObj.data){
-            stockPriceMinute.push(StockObj.data[x].minute);
-            stockPriceNumberOfTrades.push(StockObj.data[x].numberOfTrades);
-            stockPriceVolume.push(StockObj.data[x].volume);
-            stockPriceHigh.push(StockObj.data[x].high);
-            stockPriceLow.push(StockObj.data[x].low);
+          temp = JSON.stringify(data);          
+          stockObj = JSON.parse(temp); 
+         
+
+            if(stockPriceMinute!=0){
+                 stockPriceVolume =[];
+                 stockPriceHigh =[];   
+                 stockPriceLow =[];
+                 stockPriceMinute =[]; 
+                  stockPriceNumberOfTrades =[];
+        }
+          for(var x =0; x<stockObj.data.length; x++){    
+
+            stockPriceMinute.push(stockObj.data[x].minute);
+            stockPriceNumberOfTrades.push(stockObj.data[x].numberOfTrades);
+            stockPriceVolume.push(stockObj.data[x].volume);
+            stockPriceHigh.push(stockObj.data[x].high);
+            stockPriceLow.push(stockObj.data[x].low);
             
-        }         
-       
+          
+        }       
         
+       // console.log(stockPriceVolume);
     })
 
        .catch(function(err){console.log("error")});
 
 };
-
-
-
-
 
         exportise(stockPriceMinute, stockPriceNumberOfTrades, stockPriceVolume, stockPriceHigh, stockPriceLow);
 
@@ -87,7 +93,8 @@ function exportise (minute, NumberOfTrades, volume, high, low){
     module.exports.high = high;
     module.exports.low = low;
     module.exports.allStocks = filterStock;
-  //  module.exports.funcDataExtractor = dataExtractor();
+    module.exports.funcDataExtractor = dataExtractor;
+    
     
 };
 
