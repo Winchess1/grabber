@@ -8,13 +8,15 @@ app.set('view engine','ejs');
 
 
 const stockGrabberDock = require("./StockGrabber"); //Data from StockGrabber
-const minute = stockGrabberDock.minute;
-const NumberOfTrades = stockGrabberDock.NumberOfTrades;
-const volume = stockGrabberDock.volume;
-const high = stockGrabberDock.high;
-const low = stockGrabberDock.low;
+
+var minute = stockGrabberDock.minute;
+var NumberOfTrades = stockGrabberDock.NumberOfTrades;
+var volume = stockGrabberDock.volume;
+var high = stockGrabberDock.high;
+var low = stockGrabberDock.low;
+
 const allStocks =stockGrabberDock.allStocks;
-//const funcDataExtractor = stockGrabberDock.funcDataExtractor;
+const funcDataExtractor = stockGrabberDock.funcDataExtractor;
 
 
 app.get('/',(req,res,next)=>{    
@@ -23,17 +25,22 @@ app.get('/',(req,res,next)=>{
 
 });
 
-app.get('/stockGrabberDock/:id',(req,res,next)=>{        
+app.get('/stockGrabberDock/:id',(req,res)=>{        
     const id =req.params.id;
-  //  console.log(typeof(funcDataExtractor.funcDataExtractor));
-   // funcDataExtractor.funcDataExtractor(id);    
+    const funcStock =  funcDataExtractor(id)
+    //console.log(NumberOfTrades);
           res.render('template',{minute:minute,
           NumberOfTrades:NumberOfTrades,
           volume:volume,
           high:high,
           low:low}); 
+
+         
+          
           
   });
+
+
 
 
 
