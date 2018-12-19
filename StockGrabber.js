@@ -47,7 +47,7 @@ console.log('\tloading module Stock Grabber')
 
        
 
-      const  dataExtractor = function (i){
+      const  dataExtractor = function (i, render){
 
     console.log('\t\tfunc dataExtractor(', i, ')');
     var stockLink = ('https://api.iextrading.com/1.0/stock/' + i + '/chart/dynamic');
@@ -81,6 +81,7 @@ console.log('\tloading module Stock Grabber')
         }
             if (typeof (stockObj.data) === "undefined") {
                 console.log('\tthe data for', i, 'is undefinde');
+                render([],[],[],[],[]);
                 return;
             }
 
