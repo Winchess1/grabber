@@ -110,7 +110,7 @@ console.log('\tloading module Stock Grabber')
         console.log('\t\tCall Render Function END');
     })
 
-        https://www.youtube.com/watch?v=urv2fDNGCzw.catch(function (err) {
+        .catch(function (err) {
             console.log('\t\tfunc dataExtractor', err)
         });
 
