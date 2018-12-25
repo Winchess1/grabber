@@ -35,8 +35,8 @@ app.get('/', function (req, res) {
             'grant_type': 'authorization_code',
             'access_type': 'offline',
             'code': req.query.code, //get the code
-            'client_id': '493120919@AMER.OAUTHAP',
-            'redirect_uri': 'http://alexframes.com/'
+            'client_id': 'AMATUSEVSKI@AMER.OAUTHAP',
+            'redirect_uri': 'http://localhost'
         }
     }
 
