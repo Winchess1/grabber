@@ -27,8 +27,9 @@ body {
     <input class="megaMenuButtons" type="button" value = "One note" id="addStock"><br>
 
     <div class ="flex-container">
-            <% allStocks.forEach(function(date){ %>
-      <a href ="/stockGrabberDock/<%=date %>"><%=date %></a>
+             <% allStocks.forEach(function(date){ %>
+                <div>
+      <a href ="/stockGrabberDock/<%=date %>"><%=date %></a>&nbsp;<a href ="/price/<%=date %>"><%=date %></a></div>
             <% }) %>
      </div>
     </body>
