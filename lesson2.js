@@ -89,9 +89,9 @@ app.get('/price/:symbol', function (req, res) {
   const symbol = req.params.symbol;
   tda.getPriceHistory(symbol, 'day', '2', '1', 'minute', true, function(error, data){
     if (error){
-      res.render('price', { error: error, require });
+      res.render('price', { error: error, symbol, require });
     } else{
-      res.render('price', { data: data, require });
+      res.render('price', { data: data, symbol, require });
     }
   });
 });
