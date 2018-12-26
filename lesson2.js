@@ -5,6 +5,8 @@ console.log('starting application', port);
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const tda = require('./tda');
+
 var request = require('request');
 
 app.set('view engine','ejs');
@@ -63,56 +65,35 @@ app.get('/stockGrabberDock/:id',(req,res)=>{
           
   });
 
-
+// to create or view access keys
 app.get('/key', function (req, res) {
 
-
+  // if we don't have the key in query string - that means we just opened it
   if (typeof req.query.code === "undefined") {
-    res.render('key');
+    var accessKey = tda.getAccessKey();
+    res.render('key', { key: accessKey, require });
     return;
   }
-  var headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  }
 
-  var options = {
-    //see the Authentication API's Post Access Token method for more information
-    url: 'https://api.tdameritrade.com/v1/oauth2/token',
-    method: 'POST',
-    headers: headers,
-    //POST Body params
-    form: {
-      'grant_type': 'authorization_code',
-      'access_type': 'offline',
-      'code': req.query.code, //get the code
-      'client_id': 'AMATUSEVSKI3@AMER.OAUTHAP',
-      'redirect_uri': 'http://localhost:3000/key'
-    }
-  }
-
-  console.log(options);
-
-
-  //Post Access Token request
-  request(options, function (error, response, body) {
-    console.log(response);
-    if (!error && response.statusCode == 200) {
-
-      //see Post Access Token response summary for what authReply contains
-      authReply = JSON.parse(body);
-
-      //the line below is for convenience to test that it's working after authenticating
-      res.render('key', { key: authReply });
+  // requesting the access key
+  tda.requestToken(req.query.code,(error, accessKey)=>{
+    if (error == null) {
+      res.redirect('/key')
     } else {
-      res.render('key', { error: error, statusCode:response.statusCode, body:body  });
-
+      res.render('key', { error: error.error, statusCode: error.statusCode, body: error.body, require });
     }
   })
+});
 
-  function errorHandler(err, req, res, next) {
-    res.status(500)
-    res.render('error', { error: err })
-  }
+app.get('/price/:symbol', function (req, res) {
+  const symbol = req.params.symbol;
+  tda.getPriceHistory(symbol, 'day', '2', '1', 'minute', true, function(error, data){
+    if (error){
+      res.render('price', { error: error, require });
+    } else{
+      res.render('price', { data: data, require });
+    }
+  });
 });
 
 
