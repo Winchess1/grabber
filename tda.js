@@ -33,8 +33,8 @@ function tda() {
         // show saved key if it exists
         // if file exists
         if (!fs.existsSync(keyFile)) {
-            console.log('TDA - ' + keyFile + ' file not found')
-            throw 'file ' + keyFile + ' not found';
+            console.log('TDA - ' + keyFile + ' file not found');
+            return { access_token: '' };
         }
         console.log('TDA - read file')
         that.accessKey = JSON.parse(fs.readFileSync(keyFile));
@@ -105,8 +105,9 @@ function tda() {
     this.getPriceHistory = function (symbol, periodType, period, frequency, frequencyType, needExtendedHoursData, done) {
         // function get_tda_price(res, stock, done) {
         var headers = {
-            'Authorization': that.getAccessKey()
+            'Authorization': that.getAccessKey().access_token
         }
+
 
         var options = {
             //see the Authentication API's Post Access Token method for more information
@@ -114,6 +115,8 @@ function tda() {
             method: 'GET',
             headers: headers
         }
+
+        console.log(options);
 
         request(options, function (error, response, body) {
             console.log(`TDA - get prices for ${symbol} HTTP status ${response.statusCode}`);
