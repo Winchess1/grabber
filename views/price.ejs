@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            width: 80%;
+            position: relative;
+        }
+
+        #selector {
+            width: 120px;
+            position: relative;
+
+        }
+
+        .flex-container {
+            display: flex;
+
+        }
+        table{
+            font-family: monospace;
+        }
+        table thead th td{
+            text-align: center;
+        }
+    </style>
+
+</head>
+<% console.log('rendering price.ejs') ;
+const m = require('moment');
+%>
+
+<body>
+    <h1>Stocks market </h1>
+    <% if (typeof(error) !== "undefined"){%>
+    <h3>Error</h3>
+    <b>
+        <%- error %></b>
+    <% } %>
+    <div class="flex-container">
+        <table>
+            <thead>
+                <tr>
+                <th>datetime</th>
+                <th>open</th>
+                <th>high</th>
+                <th>low</th>
+                <th>close</th>
+                <th>volume</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.candles.forEach(function(price){ %>
+                <tr>
+                    <td>
+                        <%-m(price.datetime)%>
+                    </td>
+                    <td>
+                        <%-price.open%>
+                    </td>
+                    <td>
+                        <%-price.high%>
+                    </td>
+                    <td>
+                        <%-price.low%>
+                    </td>
+                    <td>
+                        <%-price.close%>
+                    </td>
+                    <td>
+                        <%-price.volume%>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+</html>
