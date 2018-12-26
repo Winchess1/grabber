@@ -1,42 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<style>
-body {
-    width: 80%;
-    position: relative;
-}
-#selector{
-    width:120px;
-    position:relative;
 
-}
-.flex-container {
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<head>
+    <style>
+        body {
+            width: 80%;
+            position: relative;
+        }
+
+        #selector {
+            width: 120px;
+            position: relative;
+
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
 
 </head>
-<% console.log('rendering key.ejs') %>
+<% console.log('rendering key.ejs') ;
+const m = require('moment');
+
+%>
+
 <body>
     <h1>Click ULR to autorize</h1>
-    <a href="https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2fkey&client_id=AMATUSEVSKI3%40AMER.OAUTHAP" >open</a>
+    <a href="https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2fkey&client_id=AMATUSEVSKI3%40AMER.OAUTHAP">open</a>
     <% if (typeof(key) !== "undefined" ){%>
-        <table>
-            <tr><td>access_token:</td><td><%-key.access_token%></td></tr>
-            <tr><td>refresh_token:</td><td><%-key.refresh_token%></td></tr>
-            <tr><td>expires_in:</td><td><%-key.expires_in%> seconds</td></tr>
-            <tr><td>refresh_token_expires_in:</td><td><%-key.refresh_token_expires_in%> seconds</td></tr>
-            <tr><td>token_type:</td><td><%-key.token_type%></td></tr>
-        </table>
+    <table>
+        <tr>
+            <td>create_time:</td>
+            <td><%-m.unix(key.create_time)%></td>
+        </tr>
+        <tr>
+            <td>access_token:</td>
+            <td>
+                <%-key.access_token%>
+            </td>
+        </tr>
+        <tr>
+            <td>refresh_token:</td>
+            <td>
+                <%-key.refresh_token%>
+            </td>
+        </tr>
+        <tr>
+            <td>expires_in:</td>
+            <td>
+                <%-m.unix(key.expires_in)%> seconds</td>
+        </tr>
+        <tr>
+            <td>refresh_token_expires_in:</td>
+            <td><%-key.refresh_token_expires_in%> - 
+                <%-m(key.refresh_token_expires_in).fromNow().replace('ago','');%></td>
+        </tr>
+        <tr>
+            <td>token_type:</td>
+            <td>
+                <%-key.token_type%>
+            </td>
+        </tr>
+    </table>
     <%}%>
     <% if (typeof(error) !== "undefined" ){%>
-        <h3>Error:</h3>
-        <table>
-            <tr><td>Error:</td><td><%-JSON.stringify(error)%></td></tr>
-            <tr><td>statusCode:</td><td><a href="https://en.wikipedia.org/wiki/HTTP_<%-statusCode%>" target="_blank"><%-statusCode%></a></td></tr>
-            <tr><td>body:</td><td><%-body%></td></tr>
-        </table>
+    <h3>Error:</h3>
+    <table>
+        <tr>
+            <td>Error:</td>
+            <td>
+                <%-error%>
+            </td>
+        </tr>
+        <tr>
+            <td>statusCode:</td>
+            <td><a href="https://en.wikipedia.org/wiki/HTTP_<%-statusCode%>" target="_blank">
+                    <%-statusCode%></a></td>
+        </tr>
+        <tr>
+            <td>body:</td>
+            <td>
+                <%-body%>
+            </td>
+        </tr>
+    </table>
     <%}%>
+
 </html>
